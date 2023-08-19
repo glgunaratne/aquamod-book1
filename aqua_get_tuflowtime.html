@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Welcome to the Aquaculture Bath Treatment Modelling Jupyter Book! &#8212; Aquaculture Bath Treatment Modelling; Post-processing notebooks</title>
+    <title>Get TUFLOWFV Time &#8212; Aquaculture Bath Treatment Modelling; Post-processing notebooks</title>
   
   
   
@@ -61,10 +61,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'aqua_get_tuflowtime';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plot model run times" href="aqua_model_run_times_plot.html" />
+    <link rel="prev" title="Sensitivity test - Different start times" href="aqua__sensitivity_test_start_time.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -130,7 +130,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -149,13 +149,13 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Welcome to the Aquaculture Bath Treatment Modelling Jupyter Book!
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="aqua_model_run_times_plot.html">Plot model run times</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aqua_3hr_EQS_neap.html">3hr EQS - Neap tide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aqua_72hr_MAC_neap.html">72hr MAC - Neap tide</a></li>
@@ -164,7 +164,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_hz_diffv.html">Sensitivity test - Different horizontal diffusion coefficients</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_vert_diff.html">Sensitivity test - Different vertical diffusion coefficients</a></li>
 <li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_start_time.html">Sensitivity test - Different start times</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua_get_tuflowtime.html">Get TUFLOWFV Time</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Get TUFLOWFV Time</a></li>
 </ul>
 
     </div>
@@ -236,7 +236,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/glgunaratne/aquamod-book1/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/glgunaratne/aquamod-book1/issues/new?title=Issue%20on%20page%20%2Faqua_get_tuflowtime.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -266,7 +266,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/aqua_get_tuflowtime.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -348,7 +348,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to the Aquaculture Bath Treatment Modelling Jupyter Book!</h1>
+    <h1>Get TUFLOWFV Time</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -358,7 +358,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing-scripts">Post-processing scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#this-will-help-to-find-the-correct-restart-file-number-based-on-the-date">This will help to find the correct restart file number based on the date</a></li>
 </ul>
             </nav>
         </div>
@@ -370,26 +370,69 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-the-aquaculture-bath-treatment-modelling-jupyter-book">
-<h1>Welcome to the Aquaculture Bath Treatment Modelling Jupyter Book!<a class="headerlink" href="#welcome-to-the-aquaculture-bath-treatment-modelling-jupyter-book" title="Permalink to this heading">#</a></h1>
-<section id="post-processing-scripts">
-<h2>Post-processing scripts<a class="headerlink" href="#post-processing-scripts" title="Permalink to this heading">#</a></h2>
-<p>If you’re engaged in aquaculture bath treatment modelling, you’ve come to the right place. Within these pages, you’ll find a collection of user-friendly scripts that are designed to help you visualise and analyse dispersal patterns.</p>
-<p>For those with experience in using Jupyter Notebook, these notebooks are here to support you in creating the essential visualisations required for technical reporting, ensuring compliance with regulatory standards in Scotland.</p>
-<p>Let’s jump right in and explore how we can enhance post-processing for aquaculture dispersion modelling.</p>
-<p>Make sure to explore the content pages included in this book for a more comprehensive overview.</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="aqua_model_run_times_plot.html">Plot model run times</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua_3hr_EQS_neap.html">3hr EQS - Neap tide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua_72hr_MAC_neap.html">72hr MAC - Neap tide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua_72hr_EQS_neap.html">72hr EQS - Neap tide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua__PMFs_tracer_conc_neap.html">Chemical concentrations at Priority Marine Features (PMFs)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_hz_diffv.html">Sensitivity test - Different horizontal diffusion coefficients</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_vert_diff.html">Sensitivity test - Different vertical diffusion coefficients</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_start_time.html">Sensitivity test - Different start times</a></li>
-<li class="toctree-l1"><a class="reference internal" href="aqua_get_tuflowtime.html">Get TUFLOWFV Time</a></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="get-tuflowfv-time">
+<h1>Get TUFLOWFV Time<a class="headerlink" href="#get-tuflowfv-time" title="Permalink to this heading">#</a></h1>
+<section id="this-will-help-to-find-the-correct-restart-file-number-based-on-the-date">
+<h2>This will help to find the correct restart file number based on the date<a class="headerlink" href="#this-will-help-to-find-the-correct-restart-file-number-based-on-the-date" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="k">def</span> <span class="nf">get_tuflowtime</span><span class="p">(</span><span class="n">yyyy</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">dd</span><span class="p">):</span>
+    <span class="c1"># The function gets the tuflowfv time from input of yyyy, mm, dd</span>
+    <span class="n">tuflowtime</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">*</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">yyyy</span><span class="p">,</span> <span class="n">mm</span><span class="p">,</span> <span class="n">dd</span><span class="p">)</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">days</span>
+    <span class="k">return</span> <span class="n">tuflowtime</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prompt the user to enter the date</span>
+<span class="n">date_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the date (YYYY-MM-DD): &quot;</span><span class="p">)</span>
+<span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">date_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+<span class="c1"># Call the get_tuflowtime function with the user&#39;s input</span>
+<span class="n">tuflowtime</span> <span class="o">=</span> <span class="n">get_tuflowtime</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">StdinNotImplementedError</span><span class="g g-Whitespace">                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Prompt the user to enter the date</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">date_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the date (YYYY-MM-DD): &quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">date_input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># Call the get_tuflowtime function with the user&#39;s input</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\ipykernel\kernelbase.py:1186,</span> in <span class="ni">Kernel.raw_input</span><span class="nt">(self, prompt)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1184</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_allow_stdin</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1185</span>     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;raw_input was called, but this frontend does not support input requests.&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1186</span>     <span class="k">raise</span> <span class="n">StdinNotImplementedError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1187</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_request</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1188</span>     <span class="nb">str</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1189</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_parent_ident</span><span class="p">[</span><span class="s2">&quot;shell&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1190</span>     <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">(</span><span class="s2">&quot;shell&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1191</span>     <span class="n">password</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1192</span> <span class="p">)</span>
+
+<span class="ne">StdinNotImplementedError</span>: raw_input was called, but this frontend does not support input requests.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the tuflowtime value</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;tuflowtime:&quot;</span><span class="p">,</span> <span class="n">tuflowtime</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tuflowtime: 285120
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -425,14 +468,14 @@ document.write(`
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="right-next"
-       href="aqua_model_run_times_plot.html"
-       title="next page">
+    <a class="left-prev"
+       href="aqua__sensitivity_test_start_time.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Plot model run times</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Sensitivity test - Different start times</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   
@@ -452,7 +495,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#post-processing-scripts">Post-processing scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#this-will-help-to-find-the-correct-restart-file-number-based-on-the-date">This will help to find the correct restart file number based on the date</a></li>
 </ul>
   </nav></div>
 

@@ -1,0 +1,1575 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Mass Balance &#8212; Aquaculture Bath Treatment Modelling; Post-processing notebooks</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'aqua_mass_flux';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to the Aquaculture Bath Treatment Modelling Jupyter Book!
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="aqua_model_run_times_plot.html">Plot model run times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_3hr_EQS_neap.html">3hr EQS - Neap tide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_72hr_MAC_neap.html">72hr MAC - Neap tide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_72hr_EQS_neap.html">72hr EQS - Neap tide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua__PMFs_tracer_conc_neap.html">Chemical concentrations at Priority Marine Features (PMFs)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_hz_diffv.html">Sensitivity test - Different horizontal diffusion coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_vert_diff.html">Sensitivity test - Different vertical diffusion coefficients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua__sensitivity_test_start_time.html">Sensitivity test - Different start times</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqua_get_tuflowtime.html">Get TUFLOWFV Time</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/glgunaratne/aquamod-book1" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/glgunaratne/aquamod-book1/issues/new?title=Issue%20on%20page%20%2Faqua_mass_flux.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/aqua_mass_flux.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Mass Balance</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Mass Balance</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-tracer-mass-and-fluxes-in-tuflow-fv-outputs">Analysing Tracer Mass and Fluxes in TUFLOW FV Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-tuflowfv-tracer-mass-output-csv">Read tuflowfv tracer mass output csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-additional-columns-for-trcaer-mass-dataframe">Create additional columns for trcaer mass dataframe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slice-the-dataframe-based-on-start-and-end-times">Slice the dataframe based on start and end times</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-plots-for-tracer-mass-volume-and-concentration">Create plots for tracer mass, volume and concentration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-tuflowfv-tracer-flux-output-csv">Read tuflowfv tracer flux output csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-additional-columns-for-trcaer-flux-dataframe">Create additional columns for trcaer flux dataframe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slice-the-dataframe-based-on-start-nd-end-times">Slice the dataframe based on start nd end times</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-the-two-data-frames-based-on-time">Merge the two data frames based on ‘TIME’</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-new-column-for-the-net-mass-and-net-concnetration">Add new column for the net mass and net concnetration.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-check-of-cumulative-flux">A quick check of cumulative flux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume">Volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-mass">Tracer Mass</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-fluxes">Tracer Fluxes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-tracer-fllux-vs-tracer-mass">Cumulative tracer fllux vs tracer mass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#net-tracer-mass">Net tracer mass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-mass-balance-error">Check Mass Balance Error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-plots">Concentration plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-based-on-mass-excluding-fluxes-at-the-boundary">Concentration based on mass excluding fluxes at the boundary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-based-on-net-mass-including-fluxes-at-the-boundary">Concentration based on net mass including fluxes at the boundary¶</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-figures">Create figures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-mass-excluding-fluxes">Tracer Mass excluding fluxes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#net-tracer-mass-including-fluxes-at-the-boundary">Net tracer mass including fluxes at the boundary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-plots">Other plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="mass-balance">
+<h1>Mass Balance<a class="headerlink" href="#mass-balance" title="Permalink to this heading">#</a></h1>
+<section id="analysing-tracer-mass-and-fluxes-in-tuflow-fv-outputs">
+<h2>Analysing Tracer Mass and Fluxes in TUFLOW FV Outputs<a class="headerlink" href="#analysing-tracer-mass-and-fluxes-in-tuflow-fv-outputs" title="Permalink to this heading">#</a></h2>
+<p><strong>This notebook provides a guide on how to import and preprocess the necessary data files, create data frames, and perform calculations to derive useful metrics for tracer mass and fluxes.</strong></p>
+</section>
+<section id="import-libraries">
+<h2>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">ScalarFormatter</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-tuflowfv-tracer-mass-output-csv">
+<h2>Read tuflowfv tracer mass output csv<a class="headerlink" href="#read-tuflowfv-tracer-mass-output-csv" title="Permalink to this heading">#</a></h2>
+<p><strong>‘TRACE_1_MASS [units]’</strong> represents the mass of tracer 1 in the whole model domain.<br />
+Units are <em>concentration units x m<sup>3</sup></em>.<br />
+We have used the conconetration units as <strong>ng/L</strong> (nanograms per litre) for this exercise.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mass_bal</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;X:\Scratch1\aqua_dis_mass_bal_003_MASS.csv&quot;</span>
+<span class="n">df_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">mass_bal</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">,</span> <span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">,</span> <span class="s1">&#39;TRACE_1_MASS [units]&#39;</span><span class="p">])</span>
+
+<span class="c1"># head of mass_bal dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_mass</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">mass_bal</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;X:\Scratch1\aqua_dis_mass_bal_003_MASS.csv&quot;</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">df_mass</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">mass_bal</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">,</span> <span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">,</span> <span class="s1">&#39;TRACE_1_MASS [units]&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># head of mass_bal dataframe</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="nb">print</span><span class="p">(</span><span class="n">df_mass</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\util\_decorators.py:211,</span> in <span class="ni">deprecate_kwarg.&lt;locals&gt;._deprecate_kwarg.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">209</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">210</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">new_arg_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arg_value</span>
+<span class="ne">--&gt; </span><span class="mi">211</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\util\_decorators.py:331,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">327</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">_format_argument_list</span><span class="p">(</span><span class="n">allow_args</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">329</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">331</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\io\parsers\readers.py:950,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">936</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">946</span>     <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">947</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">948</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">950</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\io\parsers\readers.py:605,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">602</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">604</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">605</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">607</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\io\parsers\readers.py:1442,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1439</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1441</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1442</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\io\parsers\readers.py:1735,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1733</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1734</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1735</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1736</span>     <span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1737</span>     <span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1738</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1739</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1740</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1741</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1742</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1743</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1744</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1745</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1746</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\pandas\io\common.py:856,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">851</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>         <span class="c1"># Encoding</span>
+<span class="ne">--&gt; </span><span class="mi">856</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>             <span class="n">handle</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">858</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">859</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">862</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">863</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">864</span>         <span class="c1"># Binary mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;X:\\Scratch1\\aqua_dis_mass_bal_003_MASS.csv&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-additional-columns-for-trcaer-mass-dataframe">
+<h2>Create additional columns for trcaer mass dataframe<a class="headerlink" href="#create-additional-columns-for-trcaer-mass-dataframe" title="Permalink to this heading">#</a></h2>
+<p>Two new columns are added to the dataframe df_mass.<br />
+‘TRACE_1_MASS [g]’ is as same as the TRACE_1_MASS [units].<br />
+‘TRACE_1_CONC’ is the concentration of the TRACE_1 which has units of <strong>g/m<sup>3</sup> or mg/L</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [units]&#39;</span><span class="p">]</span>
+<span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_CONC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_mass</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  TIME  VOLUME [m^3]  TRACE_1_MASS [units]  TRACE_1_MASS [g]  \
+0  01/05/2022 00:00:00  7.915585e+11          7.914863e+13      7.914863e+13   
+1  01/05/2022 01:00:00  7.917750e+11          7.917126e+13      7.917126e+13   
+2  01/05/2022 02:00:00  7.882823e+11          7.882071e+13      7.882071e+13   
+3  01/05/2022 03:00:00  7.828647e+11          7.828067e+13      7.828067e+13   
+4  01/05/2022 04:00:00  7.816740e+11          7.816029e+13      7.816029e+13   
+
+   TRACE_1_CONC  
+0     99.990879  
+1     99.992119  
+2     99.990460  
+3     99.992591  
+4     99.990904  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="slice-the-dataframe-based-on-start-and-end-times">
+<h2>Slice the dataframe based on start and end times<a class="headerlink" href="#slice-the-dataframe-based-on-start-and-end-times" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#add start and end time to slice them easier</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="s1">&#39;01/05/2022 00:00:00&#39;</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="s1">&#39;30/08/2022 00:00:00&#39;</span>
+
+<span class="c1"># Convert &#39;TIME&#39; column to datetime format</span>
+<span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Convert start and end times to datetime format</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Slice the dataframe based on the start and end times</span>
+<span class="n">df_slicemass</span> <span class="o">=</span> <span class="n">df_mass</span><span class="p">[(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_time</span><span class="p">)]</span>
+<span class="c1">#df_sliceflux = df_flux[(df_flux[&#39;TIME&#39;] &gt;= start_time) &amp; (df_flux[&#39;TIME&#39;] &lt;= end_time)]</span>
+
+<span class="c1">#head rows</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_slicemass</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="c1">#print(df_sliceflux.head())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                 TIME  VOLUME [m^3]  TRACE_1_MASS [units]  TRACE_1_MASS [g]  \
+0 2022-05-01 00:00:00  7.915585e+11          7.914863e+13      7.914863e+13   
+1 2022-05-01 01:00:00  7.917750e+11          7.917126e+13      7.917126e+13   
+2 2022-05-01 02:00:00  7.882823e+11          7.882071e+13      7.882071e+13   
+3 2022-05-01 03:00:00  7.828647e+11          7.828067e+13      7.828067e+13   
+4 2022-05-01 04:00:00  7.816740e+11          7.816029e+13      7.816029e+13   
+
+   TRACE_1_CONC  
+0     99.990879  
+1     99.992119  
+2     99.990460  
+3     99.992591  
+4     99.990904  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-plots-for-tracer-mass-volume-and-concentration">
+<h2>Create plots for tracer mass, volume and concentration<a class="headerlink" href="#create-plots-for-tracer-mass-volume-and-concentration" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a figure with three subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot timeseries for &#39;VOLUME [m^3]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[0].set_title(&#39;Volume&#39;)</span>
+<span class="c1">#axs[0].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [$m^3$]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;TRACE_1_MASS [g]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[1].set_title(&#39;Tracer Mass&#39;)</span>
+<span class="c1">#axs[1].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Mass [g]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;Tracer Concentration&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_CONC&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[2].set_title(&#39;Tracer Concentration&#39;)</span>
+<span class="c1">#axs[2].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">99.4</span><span class="p">,</span> <span class="mf">100.4</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration [mg/L]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Format the y-axis ticks using ScalarFormatter</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">ScalarFormatter</span><span class="p">(</span><span class="n">useMathText</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">formatter</span><span class="o">.</span><span class="n">set_scientific</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">formatter</span><span class="o">.</span><span class="n">set_powerlimits</span><span class="p">((</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># Change these values to control the range of exponents</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+
+<span class="c1"># Adjust the layout of the subplots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># Show the figure</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;../figures/aqua_Mass_Balance.png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1">#fig.savefig(&#39;my_figure.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/64be202449d5352041bdbb578ab5a714889f0af1d431a6b3c0b010ac01e92c5b.png" src="_images/64be202449d5352041bdbb578ab5a714889f0af1d431a6b3c0b010ac01e92c5b.png" />
+</div>
+</div>
+<p>Calculate Mass balance error</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the total mass of tracer present in the model domain at the end of simulation</span>
+<span class="n">final_tracer_mass</span> <span class="o">=</span> <span class="n">df_slicemass</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Set the time of mass added (considering only the minute part of the time)</span>
+<span class="n">mass_added_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;01/05/2022 00:00&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the mass of tracer added</span>
+<span class="n">df_time</span> <span class="o">=</span> <span class="n">df_slicemass</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_time</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_time</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M:%S&#39;</span><span class="p">)</span>
+<span class="n">mass_added</span> <span class="o">=</span> <span class="n">df_time</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_time</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">mass_added_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M&#39;</span><span class="p">),</span> <span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="c1"># Calculate the mass balance error as a percentage</span>
+<span class="n">mass_balance_error</span> <span class="o">=</span> <span class="p">((</span><span class="n">final_tracer_mass</span> <span class="o">-</span> <span class="n">mass_added</span><span class="p">)</span> <span class="o">/</span> <span class="n">mass_added</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mass balance error: </span><span class="si">{:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mass_balance_error</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mass balance error: 1.46%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-tuflowfv-tracer-flux-output-csv">
+<h2>Read tuflowfv tracer flux output csv<a class="headerlink" href="#read-tuflowfv-tracer-flux-output-csv" title="Permalink to this heading">#</a></h2>
+<p>In this exercise fluxes through two  nodestings are considered.<br />
+For ex; <em>‘NS1_TRACE_1_FLUX’ and ‘NS2_TRACE_1_FLUX’</em> represent the flux through the nodestring 1 and 2 respectively.<br />
+Flux Units are <em>m<sup>3</sup> s<sup>-1</sup></em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># read tuflowfv flux output csv</span>
+<span class="n">flux</span><span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;X:\Scratch1\aqua_dis_mass_bal_001_FLUX.csv&quot;</span>
+<span class="n">df_flux</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">,</span> <span class="s1">&#39;NS1_FLOW [m^3 s^-1]&#39;</span><span class="p">,</span> <span class="s1">&#39;NS2_FLOW [m^3 s^-1]&#39;</span><span class="p">,</span> <span class="s1">&#39;NS1_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">,</span> <span class="s1">&#39;NS2_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">])</span>
+<span class="c1"># head of flux dataframe</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_flux</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  TIME  NS1_FLOW [m^3 s^-1]  \
+0  12/07/2022 00:00:00                 0.00   
+1  12/07/2022 01:00:00            -42495.79   
+2  12/07/2022 02:00:00           -571285.80   
+3  12/07/2022 03:00:00           -880492.70   
+4  12/07/2022 04:00:00           -847207.80   
+
+   NS1_TRACE_1_FLUX [units m^3 s^-1]  NS2_FLOW [m^3 s^-1]  \
+0                                0.0                  0.0   
+1                         -4249868.0            -103444.3   
+2                        -57128790.0            -397022.4   
+3                        -88049720.0            -663696.3   
+4                        -84721900.0            -814549.2   
+
+   NS2_TRACE_1_FLUX [units m^3 s^-1]  
+0                                0.0  
+1                        -10344450.0  
+2                        -39702250.0  
+3                        -66369660.0  
+4                        -81454930.0  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-additional-columns-for-trcaer-flux-dataframe">
+<h2>Create additional columns for trcaer flux dataframe<a class="headerlink" href="#create-additional-columns-for-trcaer-flux-dataframe" title="Permalink to this heading">#</a></h2>
+<p>Three new columns are added to the dataframe df_flux.<br />
+‘TRACE_1_Tot_Flux is created by adding ‘NS1_TRACE_1_FLUX’ and ‘NS2_TRACE_1_FLUX’ together.<br />
+‘TRACE_1_Tot_Flux [g/hr]’ is created with unit converstions of ‘TRACE_1_Tot_Flux [units/s]’.<br />
+‘TRACE_1_Tot_Flux_cumu [g/hr]’ is created with cumulative values ‘TRACE_1_Tot_Flux [g/hr]’.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Add to fluxes at two nodestrings NS1 and NS2</span>
+<span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [units/s]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;NS1_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;NS2_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">]</span>
+
+<span class="c1">#convert flux units from ng/L*m3/s to g/hr</span>
+<span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [units/s]&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000000</span> <span class="o">*</span><span class="mi">3600</span>
+<span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_flux</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  TIME  NS1_FLOW [m^3 s^-1]  \
+0  12/07/2022 00:00:00                 0.00   
+1  12/07/2022 01:00:00            -42495.79   
+2  12/07/2022 02:00:00           -571285.80   
+3  12/07/2022 03:00:00           -880492.70   
+4  12/07/2022 04:00:00           -847207.80   
+
+   NS1_TRACE_1_FLUX [units m^3 s^-1]  NS2_FLOW [m^3 s^-1]  \
+0                                0.0                  0.0   
+1                         -4249868.0            -103444.3   
+2                        -57128790.0            -397022.4   
+3                        -88049720.0            -663696.3   
+4                        -84721900.0            -814549.2   
+
+   NS2_TRACE_1_FLUX [units m^3 s^-1]  TRACE_1_Tot_Flux [units/s]  \
+0                                0.0                         0.0   
+1                        -10344450.0                 -14594318.0   
+2                        -39702250.0                 -96831040.0   
+3                        -66369660.0                -154419380.0   
+4                        -81454930.0                -166176830.0   
+
+   TRACE_1_Tot_Flux [g/hr]  TRACE_1_Tot_Flux_cumu [g/hr]  
+0                   0.0000                  0.000000e+00  
+1              -52539.5448                 -5.253954e+04  
+2             -348591.7440                 -4.011313e+05  
+3             -555909.7680                 -9.570411e+05  
+4             -598236.5880                 -1.555278e+06  
+</pre></div>
+</div>
+</div>
+</div>
+<section id="slice-the-dataframe-based-on-start-nd-end-times">
+<h3>Slice the dataframe based on start nd end times<a class="headerlink" href="#slice-the-dataframe-based-on-start-nd-end-times" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#add start and end time to slice them easier</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="s1">&#39;12/07/2022 00:00:00&#39;</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="s1">&#39;09/10/2022 00:00:00&#39;</span>
+
+<span class="c1"># Convert &#39;TIME&#39; column to datetime format</span>
+<span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Convert start and end times to datetime format</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Slice the dataframe based on the start and end times</span>
+<span class="n">df_slicemass</span> <span class="o">=</span> <span class="n">df_mass</span><span class="p">[(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_mass</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_time</span><span class="p">)]</span>
+<span class="n">df_sliceflux</span> <span class="o">=</span> <span class="n">df_flux</span><span class="p">[(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_flux</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_time</span><span class="p">)]</span>
+
+<span class="c1">#head rows</span>
+<span class="c1">#print(df_slicemass.head())</span>
+<span class="c1">#print(df_sliceflux.head())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merge-the-two-data-frames-based-on-time">
+<h3>Merge the two data frames based on ‘TIME’<a class="headerlink" href="#merge-the-two-data-frames-based-on-time" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_slicemass</span><span class="p">,</span> <span class="n">df_sliceflux</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;TIME&#39;</span><span class="p">)</span>
+<span class="c1">#print(merged_df.head())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="add-new-column-for-the-net-mass-and-net-concnetration">
+<h3>Add new column for the net mass and net concnetration.<a class="headerlink" href="#add-new-column-for-the-net-mass-and-net-concnetration" title="Permalink to this heading">#</a></h3>
+<p>Net concnetration is a hypothetical variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_net_mass [g]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;</span><span class="p">]</span>
+<span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_NET_CONC&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_net_mass [g]&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">merged_df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                 TIME  VOLUME [m^3]  TRACE_1_MASS [units]  TRACE_1_MASS [g]  \
+0 2022-07-12 00:00:00  7.862932e+11          7.862162e+13        78621620.0   
+1 2022-07-12 01:00:00  7.853407e+11          7.852722e+13        78527220.0   
+2 2022-07-12 02:00:00  7.877470e+11          7.876717e+13        78767170.0   
+3 2022-07-12 03:00:00  7.930942e+11          7.930074e+13        79300740.0   
+4 2022-07-12 04:00:00  7.998839e+11          7.997925e+13        79979250.0   
+
+   TRACE_1_CONC  NS1_FLOW [m^3 s^-1]  NS1_TRACE_1_FLUX [units m^3 s^-1]  \
+0        0.0001                 0.00                                0.0   
+1        0.0001            -42495.79                         -4249868.0   
+2        0.0001           -571285.80                        -57128790.0   
+3        0.0001           -880492.70                        -88049720.0   
+4        0.0001           -847207.80                        -84721900.0   
+
+   NS2_FLOW [m^3 s^-1]  NS2_TRACE_1_FLUX [units m^3 s^-1]  \
+0                  0.0                                0.0   
+1            -103444.3                        -10344450.0   
+2            -397022.4                        -39702250.0   
+3            -663696.3                        -66369660.0   
+4            -814549.2                        -81454930.0   
+
+   TRACE_1_Tot_Flux [units/s]  TRACE_1_Tot_Flux [g/hr]  \
+0                         0.0                   0.0000   
+1                 -14594318.0              -52539.5448   
+2                 -96831040.0             -348591.7440   
+3                -154419380.0             -555909.7680   
+4                -166176830.0             -598236.5880   
+
+   TRACE_1_Tot_Flux_cumu [g/hr]  TRACE_1_net_mass [g]  TRACE_1_NET_CONC  
+0                  0.000000e+00          7.862162e+07          0.000100  
+1                 -5.253954e+04          7.847468e+07          0.000100  
+2                 -4.011313e+05          7.836604e+07          0.000099  
+3                 -9.570411e+05          7.834370e+07          0.000099  
+4                 -1.555278e+06          7.842397e+07          0.000098  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-quick-check-of-cumulative-flux">
+<h3>A quick check of cumulative flux<a class="headerlink" href="#a-quick-check-of-cumulative-flux" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Calculate tracer flux mean</span>
+<span class="n">df_mean</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mean flux:&#39;</span><span class="p">,</span> <span class="n">df_mean</span><span class="p">)</span>
+<span class="n">tot_flux</span> <span class="o">=</span> <span class="n">df_mean</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span><span class="mi">30</span> <span class="o">*</span><span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total flux:&#39;</span><span class="p">,</span> <span class="n">tot_flux</span><span class="p">)</span>
+
+<span class="c1">#Get the sum</span>
+<span class="n">flux_sum</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total flux:&#39;</span><span class="p">,</span> <span class="n">flux_sum</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean flux: -237.6466358352844
+Total flux: -684422.311205619
+Total flux: -507850.8607800028
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="plot">
+<h1>Plot<a class="headerlink" href="#plot" title="Permalink to this heading">#</a></h1>
+<section id="volume">
+<h2>Volume<a class="headerlink" href="#volume" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot timeseries for &#39;VOLUME [m^3]&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [$m^3$]&#39;</span><span class="p">)</span>
+<span class="c1">#plt.ylim((7, 9))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bce60b14e131ef59051fd6ff6b3f6e19c348482edc8b8ce7ac2cf41d154c1286.png" src="_images/bce60b14e131ef59051fd6ff6b3f6e19c348482edc8b8ce7ac2cf41d154c1286.png" />
+</div>
+</div>
+</section>
+<section id="tracer-mass">
+<h2>Tracer Mass<a class="headerlink" href="#tracer-mass" title="Permalink to this heading">#</a></h2>
+<p>The reason for missing treacer mass is that it leaves the model domain boundary as tracer fluxes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot timeseries for &#39;TRACE_1_MASS [g]&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Mass [g]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b1ad0d47c700f0f3e880083c492ca14ddc13b3f28aec7884697624d6d2cef7c3.png" src="_images/b1ad0d47c700f0f3e880083c492ca14ddc13b3f28aec7884697624d6d2cef7c3.png" />
+</div>
+</div>
+<section id="tracer-fluxes">
+<h3>Tracer Fluxes<a class="headerlink" href="#tracer-fluxes" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;TRACE_1_Tot_Flux [g/hr]&#39; at NS2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flux Total&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [g/hr]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0e1765a4ecc4c0db2036ae28a18306b2761e548cbba32d65c688374303e75e13.png" src="_images/0e1765a4ecc4c0db2036ae28a18306b2761e548cbba32d65c688374303e75e13.png" />
+</div>
+</div>
+<p>Total cumulative tracer flux should equal to the missing tracer mass.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;Cumulative Total Tracer Flux</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Cumulative Total Tracer Flux&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [g/hr]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c6c9bf88df1b0df178649895b96c4384d9a3aa62a88b1d50f504142d96802a94.png" src="_images/c6c9bf88df1b0df178649895b96c4384d9a3aa62a88b1d50f504142d96802a94.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="cumulative-tracer-fllux-vs-tracer-mass">
+<h2>Cumulative tracer fllux vs tracer mass<a class="headerlink" href="#cumulative-tracer-fllux-vs-tracer-mass" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot timeseries for &#39;Cumulative Total Tracer Flux&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cumulative Tracer Flux&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;TRACE_1_MASS [g]&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tracer Mass&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Mass and Cumulative Total Tracer Flux&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer mass [g]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/958bbad0be454607be7f9d7a78d3a64ee86729f6ab4390bae8e964f47438516c.png" src="_images/958bbad0be454607be7f9d7a78d3a64ee86729f6ab4390bae8e964f47438516c.png" />
+</div>
+</div>
+</section>
+<section id="net-tracer-mass">
+<h2>Net tracer mass<a class="headerlink" href="#net-tracer-mass" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add tracer mass and cumulative flux together</span>
+<span class="c1"># Plot timeseries for &#39;TRACE_1_NetMASS [g]&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_net_mass [g]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Net tracer mass in the model domain&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Mass [g]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ad175905c1d6b292e808c60303fc10f7a6c9d566ee37e459b332d524acd73bb9.png" src="_images/ad175905c1d6b292e808c60303fc10f7a6c9d566ee37e459b332d524acd73bb9.png" />
+</div>
+</div>
+</section>
+<section id="check-mass-balance-error">
+<h2>Check Mass Balance Error<a class="headerlink" href="#check-mass-balance-error" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the total mass of tracer present in the model domain at the end of simulation</span>
+<span class="n">final_tracer_mass</span> <span class="o">=</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_net_mass [g]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Set the time of mass added (considering only the minute part of the time)</span>
+<span class="n">mass_added_time</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;02/10/2018 17:00&#39;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">/%m/%Y %H:%M&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="concentration-plots">
+<h2>Concentration plots<a class="headerlink" href="#concentration-plots" title="Permalink to this heading">#</a></h2>
+<section id="concentration-based-on-mass-excluding-fluxes-at-the-boundary">
+<h3>Concentration based on mass excluding fluxes at the boundary<a class="headerlink" href="#concentration-based-on-mass-excluding-fluxes-at-the-boundary" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot timeseries for &#39;Tracer Concentration&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_CONC&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration [mg/L]&#39;</span><span class="p">)</span>
+<span class="c1">#plt.ylim((7.7e-10, 7.8e-10))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e3716ed790c4280b332c7d2834015630b86966aa520fc9fdf3570e3a073a6d0b.png" src="_images/e3716ed790c4280b332c7d2834015630b86966aa520fc9fdf3570e3a073a6d0b.png" />
+</div>
+</div>
+</section>
+<section id="concentration-based-on-net-mass-including-fluxes-at-the-boundary">
+<h3>Concentration based on net mass including fluxes at the boundary¶<a class="headerlink" href="#concentration-based-on-net-mass-including-fluxes-at-the-boundary" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot timeseries for &#39;Tracer Concentration&#39;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_NET_CONC&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration [mg/L]&#39;</span><span class="p">)</span>
+<span class="c1">#plt.ylim((7.7e-10, 7.8e-10))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/dfd1b90b0b3d470e313a1303c16eefe72a78b1ab57acf0b77239c7cab259b540.png" src="_images/dfd1b90b0b3d470e313a1303c16eefe72a78b1ab57acf0b77239c7cab259b540.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="create-figures">
+<h2>Create figures<a class="headerlink" href="#create-figures" title="Permalink to this heading">#</a></h2>
+<section id="tracer-mass-excluding-fluxes">
+<h3>Tracer Mass excluding fluxes<a class="headerlink" href="#tracer-mass-excluding-fluxes" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a figure with three subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot timeseries for &#39;VOLUME [m^3]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;VOLUME [m^3]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[0].set_title(&#39;Volume&#39;)</span>
+<span class="c1">#axs[0].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [$m^3$]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;TRACE_1_MASS [g]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[1].set_title(&#39;Tracer Mass&#39;)</span>
+<span class="c1">#axs[1].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Mass [g]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;Tracer Concentration&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_CONC&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[2].set_title(&#39;Tracer Concentration&#39;)</span>
+<span class="c1">#axs[2].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration [mg/L]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Adjust the layout of the subplots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># Show the figure</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/SiteA_Mass_Balance_highdif1.png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1">#fig.savefig(&#39;my_figure.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/252e76dc433de6fc56d7e01624403981ee7a45d6410bbf817b8f591968aec7a8.png" src="_images/252e76dc433de6fc56d7e01624403981ee7a45d6410bbf817b8f591968aec7a8.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">39</span><span class="p">],</span> <span class="n">line</span> <span class="mi">30</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="c1"># Show the figure</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">30</span> <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/SiteA_Mass_Balance_highdif1.png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="c1">#fig.savefig(&#39;my_figure.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\figure.py:3285,</span> in <span class="ni">Figure.savefig</span><span class="nt">(self, fname, transparent, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3281</span>     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3282</span>         <span class="n">stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3283</span>             <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">_cm_set</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">3285</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">print_figure</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backend_bases.py:2338,</span> in <span class="ni">FigureCanvasBase.print_figure</span><span class="nt">(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2334</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2335</span>     <span class="c1"># _get_renderer may change the figure dpi (as vector formats</span>
+<span class="g g-Whitespace">   </span><span class="mi">2336</span>     <span class="c1"># force the figure dpi to 72), so we need to set it again here.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2337</span>     <span class="k">with</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_setattr_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">2338</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">print_method</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2339</span>             <span class="n">filename</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2340</span>             <span class="n">facecolor</span><span class="o">=</span><span class="n">facecolor</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2341</span>             <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2342</span>             <span class="n">orientation</span><span class="o">=</span><span class="n">orientation</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2343</span>             <span class="n">bbox_inches_restore</span><span class="o">=</span><span class="n">_bbox_inches_restore</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2344</span>             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2345</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2346</span>     <span class="k">if</span> <span class="n">bbox_inches</span> <span class="ow">and</span> <span class="n">restore_bbox</span><span class="p">:</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backend_bases.py:2204,</span> in <span class="ni">FigureCanvasBase._switch_canvas_and_return_print_method.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2200</span>     <span class="n">optional_kws</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Passed by print_figure for other renderers.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2201</span>         <span class="s2">&quot;dpi&quot;</span><span class="p">,</span> <span class="s2">&quot;facecolor&quot;</span><span class="p">,</span> <span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="s2">&quot;orientation&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2202</span>         <span class="s2">&quot;bbox_inches_restore&quot;</span><span class="p">}</span>
+<span class="g g-Whitespace">   </span><span class="mi">2203</span>     <span class="n">skip</span> <span class="o">=</span> <span class="n">optional_kws</span> <span class="o">-</span> <span class="p">{</span><span class="o">*</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">meth</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
+<span class="ne">-&gt; </span><span class="mi">2204</span>     <span class="n">print_method</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">meth</span><span class="p">)(</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">meth</span><span class="p">(</span>
+<span class="nn">   2205         *args, **{k: v for k, v</span> in <span class="ni">kwargs.items</span><span class="nt">() if k not in skip}))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2206</span> <span class="k">else</span><span class="p">:</span>  <span class="c1"># Let third-parties do as they see fit.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2207</span>     <span class="n">print_method</span> <span class="o">=</span> <span class="n">meth</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\_api\deprecation.py:410,</span> in <span class="ni">delete_parameter.&lt;locals&gt;.wrapper</span><span class="nt">(*inner_args, **inner_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span>     <span class="n">deprecation_addendum</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">401</span>         <span class="sa">f</span><span class="s2">&quot;If any parameter follows </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, they should be passed as &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">402</span>         <span class="sa">f</span><span class="s2">&quot;keyword, not positionally.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">403</span>     <span class="n">warn_deprecated</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">404</span>         <span class="n">since</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">405</span>         <span class="n">name</span><span class="o">=</span><span class="nb">repr</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">408</span>                  <span class="k">else</span> <span class="n">deprecation_addendum</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">409</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">410</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">inner_args</span><span class="p">,</span> <span class="o">**</span><span class="n">inner_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backends\backend_agg.py:517,</span> in <span class="ni">FigureCanvasAgg.print_png</span><span class="nt">(self, filename_or_obj, metadata, pil_kwargs, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">468</span> <span class="nd">@_api</span><span class="o">.</span><span class="n">delete_parameter</span><span class="p">(</span><span class="s2">&quot;3.5&quot;</span><span class="p">,</span> <span class="s2">&quot;args&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">469</span> <span class="k">def</span> <span class="nf">print_png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename_or_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">470</span>               <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">471</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">472</span><span class="sd">     Write the figure to a PNG file.</span>
+<span class="g g-Whitespace">    </span><span class="mi">473</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span><span class="sd">         *metadata*, including the default &#39;Software&#39; key.</span>
+<span class="g g-Whitespace">    </span><span class="mi">516</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">517</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_print_pil</span><span class="p">(</span><span class="n">filename_or_obj</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backends\backend_agg.py:464,</span> in <span class="ni">FigureCanvasAgg._print_pil</span><span class="nt">(self, filename_or_obj, fmt, pil_kwargs, metadata)</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">460</span><span class="sd"> Draw the canvas, then save it using `.image.imsave` (to which</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span><span class="sd"> *pil_kwargs* and *metadata* are forwarded).</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">463</span> <span class="n">FigureCanvasAgg</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">464</span> <span class="n">mpl</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span>     <span class="n">filename_or_obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_rgba</span><span class="p">(),</span> <span class="nb">format</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span>     <span class="n">dpi</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">dpi</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="o">=</span><span class="n">pil_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\image.py:1667,</span> in <span class="ni">imsave</span><span class="nt">(fname, arr, vmin, vmax, cmap, format, origin, dpi, metadata, pil_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1665</span> <span class="n">pil_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1666</span> <span class="n">pil_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;dpi&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">dpi</span><span class="p">,</span> <span class="n">dpi</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">1667</span> <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">pil_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\PIL\Image.py:2428,</span> in <span class="ni">Image.save</span><span class="nt">(self, fp, format, **params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2426</span>         <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r+b&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2427</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2428</span>         <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w+b&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2430</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2431</span>     <span class="n">save_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;figures/SiteA_Mass_Balance_highdif1.png&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="net-tracer-mass-including-fluxes-at-the-boundary">
+<h2>Net tracer mass including fluxes at the boundary<a class="headerlink" href="#net-tracer-mass-including-fluxes-at-the-boundary" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a figure with three subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="c1"># Plot timeseries for &#39;VOLUME [m^3]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total Tracer Flux&#39;</span><span class="p">)</span>
+<span class="c1">#axs[0].plot(merged_df[&#39;TIME&#39;], merged_df[&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;], color=&#39;#1ABDC9&#39;, label=&#39;Cumulative Tracer Flux&#39;)</span>
+<span class="c1">#axs[0].set_title(&#39;Volume&#39;)</span>
+<span class="c1">#axs[0].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [g/hr]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;TRACE_1_MASS [g]&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_MASS [g]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tracer Mass&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux_cumu [g/hr]&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#1ABDC9&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Cumulative Tracer Flux&#39;</span><span class="p">)</span>
+
+<span class="c1">#axs[1].set_title(&#39;Tracer Mass&#39;)</span>
+<span class="c1">#axs[1].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Mass/Cumu.Flux [g/hr]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Plot timeseries for &#39;Tracer Concentration&#39;</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_net_mass [g]&#39;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;#005581&#39;</span><span class="p">)</span>
+<span class="c1">#axs[2].set_title(&#39;Tracer Concentration&#39;)</span>
+<span class="c1">#axs[2].set_xlabel(&#39;Time&#39;)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Net Tracer Mass [g]&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Adjust the layout of the subplots</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># Show the figure</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/SiteA_Mass_Balance_highdif2.png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1">#fig.savefig(&#39;my_figure.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4594001108a1e9274b89f325f00bf237a97e848f72cfd40c7e10293227200c3d.png" src="_images/4594001108a1e9274b89f325f00bf237a97e848f72cfd40c7e10293227200c3d.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">],</span> <span class="n">line</span> <span class="mi">34</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="c1"># Show the figure</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">34</span> <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;figures/SiteA_Mass_Balance_highdif2.png&#39;</span><span class="p">,</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="c1">#fig.savefig(&#39;my_figure.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\figure.py:3285,</span> in <span class="ni">Figure.savefig</span><span class="nt">(self, fname, transparent, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3281</span>     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3282</span>         <span class="n">stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3283</span>             <span class="n">ax</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">_cm_set</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">3285</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">print_figure</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backend_bases.py:2338,</span> in <span class="ni">FigureCanvasBase.print_figure</span><span class="nt">(self, filename, dpi, facecolor, edgecolor, orientation, format, bbox_inches, pad_inches, bbox_extra_artists, backend, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2334</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2335</span>     <span class="c1"># _get_renderer may change the figure dpi (as vector formats</span>
+<span class="g g-Whitespace">   </span><span class="mi">2336</span>     <span class="c1"># force the figure dpi to 72), so we need to set it again here.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2337</span>     <span class="k">with</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_setattr_cm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">2338</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">print_method</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2339</span>             <span class="n">filename</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2340</span>             <span class="n">facecolor</span><span class="o">=</span><span class="n">facecolor</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2341</span>             <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2342</span>             <span class="n">orientation</span><span class="o">=</span><span class="n">orientation</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2343</span>             <span class="n">bbox_inches_restore</span><span class="o">=</span><span class="n">_bbox_inches_restore</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2344</span>             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2345</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2346</span>     <span class="k">if</span> <span class="n">bbox_inches</span> <span class="ow">and</span> <span class="n">restore_bbox</span><span class="p">:</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backend_bases.py:2204,</span> in <span class="ni">FigureCanvasBase._switch_canvas_and_return_print_method.&lt;locals&gt;.&lt;lambda&gt;</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2200</span>     <span class="n">optional_kws</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Passed by print_figure for other renderers.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2201</span>         <span class="s2">&quot;dpi&quot;</span><span class="p">,</span> <span class="s2">&quot;facecolor&quot;</span><span class="p">,</span> <span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="s2">&quot;orientation&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2202</span>         <span class="s2">&quot;bbox_inches_restore&quot;</span><span class="p">}</span>
+<span class="g g-Whitespace">   </span><span class="mi">2203</span>     <span class="n">skip</span> <span class="o">=</span> <span class="n">optional_kws</span> <span class="o">-</span> <span class="p">{</span><span class="o">*</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">meth</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
+<span class="ne">-&gt; </span><span class="mi">2204</span>     <span class="n">print_method</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">meth</span><span class="p">)(</span><span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">meth</span><span class="p">(</span>
+<span class="nn">   2205         *args, **{k: v for k, v</span> in <span class="ni">kwargs.items</span><span class="nt">() if k not in skip}))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2206</span> <span class="k">else</span><span class="p">:</span>  <span class="c1"># Let third-parties do as they see fit.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2207</span>     <span class="n">print_method</span> <span class="o">=</span> <span class="n">meth</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\_api\deprecation.py:410,</span> in <span class="ni">delete_parameter.&lt;locals&gt;.wrapper</span><span class="nt">(*inner_args, **inner_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span>     <span class="n">deprecation_addendum</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">401</span>         <span class="sa">f</span><span class="s2">&quot;If any parameter follows </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">, they should be passed as &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">402</span>         <span class="sa">f</span><span class="s2">&quot;keyword, not positionally.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">403</span>     <span class="n">warn_deprecated</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">404</span>         <span class="n">since</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">405</span>         <span class="n">name</span><span class="o">=</span><span class="nb">repr</span><span class="p">(</span><span class="n">name</span><span class="p">),</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">408</span>                  <span class="k">else</span> <span class="n">deprecation_addendum</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">409</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">410</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">inner_args</span><span class="p">,</span> <span class="o">**</span><span class="n">inner_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backends\backend_agg.py:517,</span> in <span class="ni">FigureCanvasAgg.print_png</span><span class="nt">(self, filename_or_obj, metadata, pil_kwargs, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">468</span> <span class="nd">@_api</span><span class="o">.</span><span class="n">delete_parameter</span><span class="p">(</span><span class="s2">&quot;3.5&quot;</span><span class="p">,</span> <span class="s2">&quot;args&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">469</span> <span class="k">def</span> <span class="nf">print_png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename_or_obj</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">470</span>               <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">471</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">472</span><span class="sd">     Write the figure to a PNG file.</span>
+<span class="g g-Whitespace">    </span><span class="mi">473</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span><span class="sd">         *metadata*, including the default &#39;Software&#39; key.</span>
+<span class="g g-Whitespace">    </span><span class="mi">516</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">517</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_print_pil</span><span class="p">(</span><span class="n">filename_or_obj</span><span class="p">,</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\backends\backend_agg.py:464,</span> in <span class="ni">FigureCanvasAgg._print_pil</span><span class="nt">(self, filename_or_obj, fmt, pil_kwargs, metadata)</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">460</span><span class="sd"> Draw the canvas, then save it using `.image.imsave` (to which</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span><span class="sd"> *pil_kwargs* and *metadata* are forwarded).</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">463</span> <span class="n">FigureCanvasAgg</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">464</span> <span class="n">mpl</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span>     <span class="n">filename_or_obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer_rgba</span><span class="p">(),</span> <span class="nb">format</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="s2">&quot;upper&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span>     <span class="n">dpi</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">dpi</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span> <span class="n">pil_kwargs</span><span class="o">=</span><span class="n">pil_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\matplotlib\image.py:1667,</span> in <span class="ni">imsave</span><span class="nt">(fname, arr, vmin, vmax, cmap, format, origin, dpi, metadata, pil_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1665</span> <span class="n">pil_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1666</span> <span class="n">pil_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;dpi&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">dpi</span><span class="p">,</span> <span class="n">dpi</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">1667</span> <span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">pil_kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~\.conda\envs\coastal\lib\site-packages\PIL\Image.py:2428,</span> in <span class="ni">Image.save</span><span class="nt">(self, fp, format, **params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2426</span>         <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r+b&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2427</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2428</span>         <span class="n">fp</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w+b&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2430</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2431</span>     <span class="n">save_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;figures/SiteA_Mass_Balance_highdif2.png&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="other-plots">
+<h3>Other plots<a class="headerlink" href="#other-plots" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;TRACE_1_Tot_Flux [g/hr]&#39; at NS1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;NS1_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flux NS1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [units/s]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3cca05362605c7148d0ec4e2cde6cb8f7d8ce036b0df32b4a4bfed18fb678d08.png" src="_images/3cca05362605c7148d0ec4e2cde6cb8f7d8ce036b0df32b4a4bfed18fb678d08.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;TRACE_1_Tot_Flux [g/hr]&#39; at NS2</span>
+<span class="c1">#plt.plot(df_sliceflux[&#39;TIME&#39;], df_sliceflux[&#39;TRACE_1_Tot_Flux [g/hr]&#39;])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;NS2_TRACE_1_FLUX [units m^3 s^-1]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flux NS2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [units/s]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/4fd7374c81d91dd56f00864c0aba17b5e341131de61ea3d841010b47371f805d.png" src="_images/4fd7374c81d91dd56f00864c0aba17b5e341131de61ea3d841010b47371f805d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;NS1_FLOW [m^3 s^-1]&#39; at NS1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;NS1_FLOW [m^3 s^-1]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flow through NS1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flow [m3/s]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ee97bfca52e9b7e26af25979e5ac38cf383372f02e072e601bae138fb6c01d71.png" src="_images/ee97bfca52e9b7e26af25979e5ac38cf383372f02e072e601bae138fb6c01d71.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;NS2_FLOW [m^3 s^-1]&#39; at NS1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;NS2_FLOW [m^3 s^-1]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flow through NS2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flow [m3/s]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/af64ae9c8993d0b27b84521ea397bd7fe8c00a0f9cb4c68013c076ceef999fbd.png" src="_images/af64ae9c8993d0b27b84521ea397bd7fe8c00a0f9cb4c68013c076ceef999fbd.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot timeseries for &#39;TRACE_1_Tot_Flux [g/hr]&#39; at NS2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">],</span> <span class="n">merged_df</span><span class="p">[</span><span class="s1">&#39;TRACE_1_Tot_Flux [g/hr]&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Tracer Flux Total&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Tracer Flux [g/hr]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cf58e89cd600711c34a7ce295b130dc697eeafe3de6a7b06e9f6b332e6544d7d.png" src="_images/cf58e89cd600711c34a7ce295b130dc697eeafe3de6a7b06e9f6b332e6544d7d.png" />
+</div>
+</div>
+<p>Concentration based on mass excluding fluxes at the boundary</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Mass Balance</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysing-tracer-mass-and-fluxes-in-tuflow-fv-outputs">Analysing Tracer Mass and Fluxes in TUFLOW FV Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-tuflowfv-tracer-mass-output-csv">Read tuflowfv tracer mass output csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-additional-columns-for-trcaer-mass-dataframe">Create additional columns for trcaer mass dataframe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slice-the-dataframe-based-on-start-and-end-times">Slice the dataframe based on start and end times</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-plots-for-tracer-mass-volume-and-concentration">Create plots for tracer mass, volume and concentration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-tuflowfv-tracer-flux-output-csv">Read tuflowfv tracer flux output csv</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-additional-columns-for-trcaer-flux-dataframe">Create additional columns for trcaer flux dataframe</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slice-the-dataframe-based-on-start-nd-end-times">Slice the dataframe based on start nd end times</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-the-two-data-frames-based-on-time">Merge the two data frames based on ‘TIME’</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-new-column-for-the-net-mass-and-net-concnetration">Add new column for the net mass and net concnetration.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-check-of-cumulative-flux">A quick check of cumulative flux</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume">Volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-mass">Tracer Mass</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-fluxes">Tracer Fluxes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cumulative-tracer-fllux-vs-tracer-mass">Cumulative tracer fllux vs tracer mass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#net-tracer-mass">Net tracer mass</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-mass-balance-error">Check Mass Balance Error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-plots">Concentration plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-based-on-mass-excluding-fluxes-at-the-boundary">Concentration based on mass excluding fluxes at the boundary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concentration-based-on-net-mass-including-fluxes-at-the-boundary">Concentration based on net mass including fluxes at the boundary¶</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-figures">Create figures</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tracer-mass-excluding-fluxes">Tracer Mass excluding fluxes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#net-tracer-mass-including-fluxes-at-the-boundary">Net tracer mass including fluxes at the boundary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-plots">Other plots</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Gayan Gunaratne
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
